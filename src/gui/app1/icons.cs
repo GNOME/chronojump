@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2017-2025   Xavier de Blas <xaviblas@gmail.com>
+ * Copyright (C) 2017-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 
@@ -129,6 +129,12 @@ public partial class ChronoJumpWindow
 	//jump
 	Gtk.Image image_jump_execute_air;
 	Gtk.Image image_jump_execute_land;
+	Gtk.Image image_jump_execute_air2;
+	Gtk.Image image_jump_execute_land2;
+	Gtk.Image image_jump_execute_air3;
+	Gtk.Image image_jump_execute_land3;
+	Gtk.Image image_jump_execute_air4;
+	Gtk.Image image_jump_execute_land4;
 
 	//run
 	Gtk.Image image_run_execute_running;
@@ -739,6 +745,12 @@ public partial class ChronoJumpWindow
 
 		image_jump_execute_air.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_air.png");
 		image_jump_execute_land.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_land.png");
+		image_jump_execute_air2.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_air.png");
+		image_jump_execute_land2.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_land.png");
+		image_jump_execute_air3.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_air.png");
+		image_jump_execute_land3.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_land.png");
+		image_jump_execute_air4.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_air.png");
+		image_jump_execute_land4.Pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "image_jump_land.png");
 
 		pixbuf = Chronojump.MyPixbuf.Get(null, Util.GetImagePath(false) + "run_2x.png");
 		image_run_execute_running.Pixbuf = pixbuf;
@@ -1238,6 +1250,12 @@ public partial class ChronoJumpWindow
 		//jump
 		image_jump_execute_air = (Gtk.Image) builder.GetObject ("image_jump_execute_air");
 		image_jump_execute_land = (Gtk.Image) builder.GetObject ("image_jump_execute_land");
+		image_jump_execute_air2 = (Gtk.Image) builder.GetObject ("image_jump_execute_air2");
+		image_jump_execute_land2 = (Gtk.Image) builder.GetObject ("image_jump_execute_land2");
+		image_jump_execute_air3 = (Gtk.Image) builder.GetObject ("image_jump_execute_air3");
+		image_jump_execute_land3 = (Gtk.Image) builder.GetObject ("image_jump_execute_land3");
+		image_jump_execute_air4 = (Gtk.Image) builder.GetObject ("image_jump_execute_air4");
+		image_jump_execute_land4 = (Gtk.Image) builder.GetObject ("image_jump_execute_land4");
 
 		//run
 		image_run_execute_running = (Gtk.Image) builder.GetObject ("image_run_execute_running");

@@ -200,6 +200,12 @@ public partial class ChronoJumpWindow
 
 			image_jump_execute_land.Visible = false;
 			image_jump_execute_air.Visible = false;
+			image_jump_execute_land2.Visible = false;
+			image_jump_execute_air2.Visible = false;
+			image_jump_execute_land3.Visible = false;
+			image_jump_execute_air3.Visible = false;
+			image_jump_execute_land4.Visible = false;
+			image_jump_execute_air4.Visible = false;
 		}
 
 		blinkCapture = new BlinkImage (image_no_capturing, image_capturing);
@@ -450,8 +456,7 @@ public partial class ChronoJumpWindow
 	private void updateJumpIcons ()
 	{
 		// for each of the four sensors
-		//for (int i = 1; i <= 4; i ++) //TODO 1 to 4
-		for (int i = 1; i <= 1; i ++)
+		for (int i = 1; i <= 4; i ++)
 		{
 			// if we still have not any event on this sensor ...
 			if (cairoGraphFourPlatformsPoints_ll[i].Count == 0)
@@ -460,8 +465,7 @@ public partial class ChronoJumpWindow
 				if (fpc.InitialStatus_l == null || fpc.InitialStatus_l.Count != 4)
 					continue;
 
-				image_jump_execute_land.Visible = ! fpc.InitialStatus_l[i-1];
-				image_jump_execute_air.Visible = fpc.InitialStatus_l[i-1];
+				updateJumpIcon (i, fpc.InitialStatus_l[i-1]);
 			}
 
 			PointF p = PointF.Last (cairoGraphFourPlatformsPoints_ll[i]);
@@ -470,8 +474,29 @@ public partial class ChronoJumpWindow
 
 			//LogB.Information ("Last is: " + p.ToString ());
 			// 1st sensor Y on 4.0 and 4.4 (check if they are above or below 4.2)
-			image_jump_execute_land.Visible = (p.Y < 5.2 -i);
-			image_jump_execute_air.Visible = (p.Y > 5.2 -i);
+			updateJumpIcon (i, p.Y > 5.2 -i);
+		}
+	}
+	private void updateJumpIcon (int i, bool air)
+	{
+		switch (i)
+		{
+			case 1 :
+				image_jump_execute_land.Visible = ! air;
+				image_jump_execute_air.Visible = air;
+				break;
+			case 2 :
+				image_jump_execute_land2.Visible = ! air;
+				image_jump_execute_air2.Visible = air;
+				break;
+			case 3 :
+				image_jump_execute_land3.Visible = ! air;
+				image_jump_execute_air3.Visible = air;
+				break;
+			case 4 :
+				image_jump_execute_land4.Visible = ! air;
+				image_jump_execute_air4.Visible = air;
+				break;
 		}
 	}
 

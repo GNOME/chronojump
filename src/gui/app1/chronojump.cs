@@ -4612,6 +4612,8 @@ public partial class ChronoJumpWindow
 			on_finish_clicked_2_raceAnalyzer ();
 		else if (current_mode == Constants.Modes.OTHER)
 			on_finish_clicked_2_other ();
+		else if (current_mode == Constants.Modes.JUMPSSIMPLE && bluetoothCapture != null && bluetoothCapture.BluetoothReading)
+			on_finish_clicked_2_other ();
 		else if (current_mode == Constants.Modes.JUMPSSIMPLE &&
 				crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
 			on_finish_clicked_2_other ();
@@ -4881,6 +4883,13 @@ public partial class ChronoJumpWindow
 		}
 		if(current_mode == Constants.Modes.JUMPSSIMPLE) //jumps simple with fourPlatforms
 		{
+			//TODO bluetooth will also be managed on chronopicRegister
+			if (bluetoothCapture != null && bluetoothCapture.BluetoothReading)
+			{
+				on_four_platforms_capture_clicked (o);
+				return;
+			}
+
 			ChronopicRegisterPort crp = chronopicRegister.GetSelectedForMode (current_mode);
 			if (crp.Port != "" && crp.Type == ChronopicRegisterPort.Types.FOURPLATFORMS)
 			{

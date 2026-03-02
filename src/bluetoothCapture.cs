@@ -79,13 +79,18 @@ public class BluetoothCapture
 		}
 		*/
 
-		bd_l = new BluetoothDataList ();
-		bm_l = new BluetoothMessageList ();
-
+		EmptyLists ();
 		bluetoothReading = true;
 		bluetoothDo (scriptURL, mode, val);
 
 		return true;
+	}
+
+	// to have new capture do not read previous events
+	public void EmptyLists ()
+	{
+		bd_l = new BluetoothDataList ();
+		bm_l = new BluetoothMessageList ();
 	}
 
 	public void Stop ()

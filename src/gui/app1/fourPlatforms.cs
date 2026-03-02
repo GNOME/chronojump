@@ -267,6 +267,7 @@ public partial class ChronoJumpWindow
 		bool bluetoothUse = false;
 		if (bluetoothCapture != null && bluetoothCapture.BluetoothReading)
 		{
+			bluetoothCapture.EmptyLists ();
 			bluetoothUse = true;
 			fpc = null;
 		}
@@ -471,11 +472,16 @@ public partial class ChronoJumpWindow
 
 	private void updateJumpIcons ()
 	{
+		bool bluetoothUse = false;
+		if (bluetoothCapture != null && bluetoothCapture.BluetoothReading)
+			bluetoothUse = true;
+
 		// for each of the four sensors
 		for (int i = 1; i <= 4; i ++)
 		{
 			// if we still have not any event on this sensor ...
-			if (cairoGraphFourPlatformsPoints_ll[i].Count == 0)
+			// bluetoothUse does not give us the initialStatus_l
+			if (! bluetoothUse && cairoGraphFourPlatformsPoints_ll[i].Count == 0)
 			{
 				// ... show initial status (list from 0 to 3)
 				if (fpc.InitialStatus_l == null || fpc.InitialStatus_l.Count != 4)

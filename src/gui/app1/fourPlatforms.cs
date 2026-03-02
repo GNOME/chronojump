@@ -334,13 +334,13 @@ public partial class ChronoJumpWindow
 				fpcm.Cancel = true;
 			}
 
-			//needed to really finish capture and be able to capture a second time
-			//this is finish from button
+			// finish A: user clicking to "Finish" button
 			if (fourPlatformsProcessFinish && fpcm != null)
 			{
 				event_execute_label_message.Text = "Finished.";
 				fpcm.Finish = true;
 
+				// this is used on Chronopic4 jumpsSimple continuous
 				if (current_mode == Constants.Modes.JUMPSSIMPLE)
 				{
 					//insert jumps and get the list of jumps
@@ -363,17 +363,23 @@ public partial class ChronoJumpWindow
 
 				sensitiveSelectedTestButtons (true);
 			}
-			//this is finish from arrive to stepsTotal steps
+			// finish B: Test finishd: jumps oneJump is done; 4P: when arrive to stepsTotal steps
 			else if (fpcm != null && fpcm.Finish)
 			{
 				event_execute_label_message.Text = "Finished.";
 
 				if (current_mode == Constants.Modes.JUMPSSIMPLE)
-					fourPlatformsInsertToSQLJumpSimple ();
+				{
+					// this is used on Chronopic4 jumpsSimple oneJump
+					List<Jump> jump_l = fourPlatformsInsertToSQLJumpSimple ();
+					if (jump_l.Count > 0)
+						treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, jump_l[0], "");
+				}
 				else //if (current_mode == Constants.Modes.OTHER)
+				{
 					fourPlatformsInsertToSQLOther ();
-
-				treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentFourPlatforms, "");
+					treeViewResultsSession.Add (currentPerson.UniqueID, currentPerson.Name, currentFourPlatforms, "");
+				}
 
 				sensitiveSelectedTestButtons (true);
 				box_fourPlatforms_capture_buttons.Sensitive = true;

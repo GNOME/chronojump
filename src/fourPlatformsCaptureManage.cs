@@ -15,7 +15,7 @@
  *  along with this program; if not, write to the Free Software
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
- * Copyright (C) 2004-2025   Xavier de Blas <xaviblas@gmail.com> 
+ * Copyright (C) 2004-2026   Xavier de Blas <xaviblas@gmail.com>
  */
 
 using System;
@@ -118,6 +118,7 @@ public class FourPlatformsCaptureManage
 
 		int yPre = -1; //for FROMLOWTOHIGH
 		FourPlatformsEvent fpe;
+		FourPlatformsEvent fpePre = null; //for jumpSimple
 
 		while (! finish && ! cancel)// && ! error)
 		{
@@ -197,6 +198,14 @@ public class FourPlatformsCaptureManage
 			points_ll[y].Add (new PointF (timeAccu_l[fpe.Button], 5-y+ySign)); //1-4 each of the sensors
 
 			yPre = y; // for FROMLOWTOHIGH
+
+			if (mode == Constants.Modes.JUMPSSIMPLE)
+			{
+				if (fpePre != null && fpe.Time > 0)
+					finish = true;
+
+				fpePre = fpe;
+			}
 
 			if (fpcManageSteps != null && fpcManageSteps.StepsCompleted >= stepsTotal)
 				finish = true;
